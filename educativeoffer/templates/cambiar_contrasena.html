@@ -1,0 +1,37 @@
+{% extends "./base.html" %}
+
+{% block title %} Cambiar contraseña {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Cambiar Contraseña</h2>
+            <form method="post" action="{% url 'cambiar_contrasena' %}">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="mb-3">
+                    {{ form.contrasena_actual.label_tag }}
+                    {{ form.contrasena_actual }}
+                    {{ form.contrasena_actual.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.nueva_contrasena.label_tag }}
+                    {{ form.nueva_contrasena }}
+                    {{ form.nueva_contrasena.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.confirmar_contrasena.label_tag }}
+                    {{ form.confirmar_contrasena }}
+                    {{ form.confirmar_contrasena.errors }}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-3">Cambiar Contraseña</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+
+{% endblock %}

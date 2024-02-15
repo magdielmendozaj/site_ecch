@@ -1,0 +1,46 @@
+{% extends "./base.html" %}
+
+{% block title %} Documentos de {{ asignatura.nombre }} {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<div class="container mt-4">
+    <h3 class="text-center">Documentos para la asignatura: {{ asignatura.nombre }}</h3>
+    {% if documentos %}
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center fw-bolder">Título</th>
+                    <th class="text-center fw-bolder">Descripción</th>
+                    <th class="text-center fw-bolder">Enlace</th>
+                    <th class="text-center fw-bolder">Fecha de Subida</th>
+                    <th class="text-center fw-bolder">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for documento in documentos %}
+                <tr>
+                    <td>{{ documento.titulo }}</td>
+                    <td>{{ documento.descripcion }}</td>
+                    <td><a href="{{ documento.uploadedFile.url }}" target="_blank">Ver Documento</a></td>
+                    <td>{{ documento.dateTimeOfUpload }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'editar_documento' documento.id %}" class="btn btn-warning btn-block">Editar</a>
+                        <a href="{% url 'eliminar_documento' documento.id %}" class="btn btn-danger btn-block">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No hay documentos disponibles para esta asignatura.</p>
+    {% endif %}
+    <a href="{% url 'registrar_documento' asignatura_id=asignatura.id %}"
+        class="btn btn-primary btn-block mt-3">Registrar Nuevo Documento</a>
+</div>
+<br />
+
+{% endblock %}

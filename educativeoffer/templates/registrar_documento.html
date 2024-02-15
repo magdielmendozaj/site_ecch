@@ -1,0 +1,29 @@
+{% extends "./base.html" %}
+
+{% block title %} Registrar documento para {{ asignatura.nombre }} {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<div class="container mt-5">
+    <h2 class="text-center">Registrar Nuevo Documento para: {{ asignatura.nombre }}</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.titulo.label }}
+                {{ form.titulo }}
+                <br />
+                {{ form.descripcion.label }}
+                {{ form.descripcion }}
+                <br />
+                {{ form.uploadedFile.label }}
+                {{ form.uploadedFile }}
+                <button type="submit" class="btn btn-primary btn-block mt-3">Registrar Documento</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+
+{% endblock %}

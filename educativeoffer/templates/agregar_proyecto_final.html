@@ -1,0 +1,54 @@
+{% extends './base.html' %}
+
+{% block title %} Agregar Proyecto Final {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h2 class="text-center">Agregar: {{ proyecto_asignado.titulo }} </h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data" class="my-4">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título:</label>
+                    <input type="text" name="titulo" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción:</label>
+                    <textarea name="descripcion" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="documento_pdf" class="form-label">Documento PDF:</label>
+                    <input type="file" name="documento_pdf" class="form-control" accept=".pdf" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imágenes:</label>
+                    <input type="file" name="imagen" class="form-control" accept="image/*" multiple>
+                    <small class="form-text text-muted">Selecciona hasta 5 imágenes.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('input[name="imagen"]').on('change', function () {
+            var numFiles = $(this)[0].files.length;
+            
+            if (numFiles > 5) {
+                alert('Solo se permiten 5 imágenes.');
+                $(this).val(''); 
+            }
+        });
+    });
+</script>
+
+{% endblock %}

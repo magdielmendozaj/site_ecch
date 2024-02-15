@@ -1,0 +1,161 @@
+{% extends "./base.html" %}
+
+{% block title %} Inscripción {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<main class="flex-shrink-0">
+
+    <section class="py-5">
+        <div class="container px-5">
+            <!-- Formulario de inscripción -->
+            <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bolder">Solicitud de Inscripción</h1>
+                    <p class="lead fw-normal text-muted mb-0">Forma parte de nuestra comunidad</p>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <form id="contactForm" action="{% url 'inscripcion' %}" method="post">{% csrf_token %}
+
+                            <!-- Datos Personales -->
+                            <div class="text-center mb-5">
+                                <p class="lead fw-normal text-muted mb-0">Datos Personales</p>
+                            </div>
+                            <hr />
+
+                            <!-- Nombre input -->
+                            <div class="form-floating mb-3">
+                                {{ form.nombre }}
+                                <label>{{ form.nombre.label_tag }}</label>
+                            </div>
+
+                            <!-- ApellidoP input -->
+                            <div class="form-floating mb-3">
+                                {{ form.apellidoPaterno }}
+                                <label>{{ form.apellidoPaterno.label_tag }}</label>
+                            </div>
+
+                            <!-- ApellidoM input -->
+                            <div class="form-floating mb-3">
+                                {{ form.apellidoMaterno }}
+                                <label>{{ form.apellidoMaterno.label_tag }}</label>
+                            </div>
+
+                            <!-- Email input -->
+                            <div class="form-floating mb-3">
+                                {{ form.email }}
+                                <label>{{ form.email.label_tag }}</label>
+                            </div>
+
+                            <!-- Número telefónico input -->
+                            <div class="form-floating mb-3">
+                                {{ form.numTelefonico }}
+                                <label>{{ form.numTelefonico.label_tag }}</label>
+                            </div>
+
+                            <!-- Fecha nacimiento input -->
+                            <div class="form-floating mb-3">
+                                {{ form.fechaNacimiento }}
+                                <label>{{ form.fechaNacimiento.label_tag }}</label>
+                            </div>
+
+                            <!-- Sexo input -->
+                            <div class="form-floating mb-3">
+                                {{ form.sexo }}
+                                <label>{{ form.sexo.label_tag }}</label>
+                            </div>
+
+                            <!-- Dirección -->
+                            <div class="text-center mb-5">
+                                <p class="lead fw-normal text-muted mb-0">Dirección</p>
+                            </div>
+                            <hr />
+
+                            <!-- Calle input -->
+                            <div class="form-floating mb-3">
+                                {{ form.calle }}
+                                <label>{{ form.calle.label_tag }}</label>
+                            </div>
+                            
+                            <!-- N_ext input -->
+                            <div class="form-floating mb-3">
+                                {{ form.n_ext }}
+                                <label>{{ form.n_ext.label_tag }}</label>
+                            </div>
+
+                            <!-- N_int input -->
+                            <div class="form-floating mb-3">
+                                {{ form.n_int }}
+                                <label>{{ form.n_int.label_tag }}</label>
+                            </div>
+
+                            <!-- CP input -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="c_postal" type="number" readonly/>
+                                <label>Código Postal</label>
+                            </div>
+
+                            <!-- Estado input -->
+                            <div class="form-floating mb-3">
+                                {{ form.estado }}
+                                <label>{{ form.estado.label_tag }}</label>
+                            </div>
+
+                            <!-- Municipio input -->
+                            <div class="form-floating mb-3">
+                                {{ form.municipio }}
+                                <label>{{ form.municipio.label_tag }}</label>
+                            </div>
+
+                            <!-- Localidad input -->
+                            <div class="form-floating mb-3">
+                                {{ form.localidad }}
+                                <label>{{ form.localidad.label_tag }}</label>
+                            </div>
+
+                            <!-- Especialidad -->
+                            <div class="text-center mb-5">
+                                <p class="lead fw-normal mb-0">Especialidad</p>
+                                <p class="lead fw-normal text-muted mb-0">Elige la especialidad que quieres estudiar</p>
+                            </div>
+
+                            <!-- Especialidad input -->
+                            <div class="form-floating mb-3">
+                                {{ form.especialidad }}
+                                <label>{{ form.especialidad.label_tag }}</label>
+                            </div>
+
+                            <!-- Medio de contacto -->
+                            <div class="text-center mb-5">
+                                <p class="lead fw-normal mb-0">Medio de Contacto</p>
+                                <p class="lead fw-normal text-muted mb-0">¿Cómo supiste de nosotros?</p>
+                            </div>
+
+                            <!-- mContacto input -->
+                            <div class="form-floating mb-3">
+                                {{ form.medioContacto }}
+                                <label>{{ form.medioContacto.label_tag }}</label>
+                            </div>
+
+                            <!-- Botones -->
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" type="submit">Enviar</button>
+                            </div>
+                        </form>
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <p class="small fw-bold mt-2 pt-1 mb-0">¿Ya tienes cuenta? <a href="{% url 'login' %}"
+                                    class="link-danger">Inicia Sesión</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+{% endblock %}

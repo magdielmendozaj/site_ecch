@@ -1,0 +1,94 @@
+{% extends "./base.html" %}
+
+{% block title %} Calificaciones de {{ usuario.get_full_name }} {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<div class="container mt-4">
+    <h3 class="text-center">Asignaturas de la Especialidad del Alumno {{ usuario.get_full_name }}</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="text-center">
+                <th class="fw-bolder">Asignatura</th>
+                <th class="fw-bolder">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asignatura in asignaturas_sin_calificacion %}
+                <tr>
+                    <td>{{ asignatura.nombre }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'asignar_calificacion' usuario_email=usuario.email asignatura_id=asignatura.id %}" class="btn btn-primary">Asignar Calificación</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="container mt-4">
+    <h3 class="text-center">Calificaciones del Alumno</h3>
+    {% if calificaciones_alumno %}
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th class="fw-bolder">Asignatura</th>
+                    <th class="fw-bolder">Periodo</th>
+                    <th class="fw-bolder">Calificación</th>
+                    <th class="fw-bolder">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for calificacion in calificaciones_alumno %}
+                    <tr>
+                        <td>{{ calificacion.asignatura.nombre }}</td>
+                        <td>{{ calificacion.periodo }}</td>
+                        <td>{{ calificacion.calificacion }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'editar_calificacion' calificacion.id %}" class="btn btn-warning">Editar Calificación</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay calificaciones disponibles para este alumno.</p>
+    {% endif %}
+</div>
+
+<div class="container mt-4">
+    <h3 class="text-center">Proyectos Finales del Alumno</h3>
+    <div class="row row-cols-1">
+        {% for proyecto in proyectos_alumno %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ proyecto.titulo }}</h5>
+                    <p class="card-text">{{ proyecto.descripcion }}</p>
+                    <p class="card-text"><strong>Fecha de Creación:</strong> {{ proyecto.fecha_creacion|date }}</p>
+                    <a href="{{ proyecto.documento_pdf.url }}" class="card-link">Descargar PDF</a>
+                    <p class="card-text"><strong>Aprobado:</strong> {{ proyecto.aprobado }}</p>
+                    <div class="mt-3">
+                        <h6 class="card-subtitle mb-2 text-muted">Imágenes</h6>
+                        <div class="row row-cols-2 g-3">
+                            {% for imagen in proyecto.imagenproyecto_set.all %}
+                            <div class="col">
+                                <img src="{{ imagen.imagen.url }}" alt="{{ imagen.titulo }}" class="img-thumbnail">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'aprobar_proyecto' proyecto.id %}" class="btn btn-primary">Aprobar Proyecto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br />
+
+{% endblock %}

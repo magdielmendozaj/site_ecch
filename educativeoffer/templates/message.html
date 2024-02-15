@@ -1,0 +1,60 @@
+{% extends "./base.html" %}
+
+{% block title %} Perfil {% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h3 class="text-center">Messaging</h3>
+    <div class="row messaging">
+        <div class="col-md-4 inbox_msg">
+            <div class="inbox_people">
+                <!-- Lista de usuarios/recipients -->
+                <div class="inbox_chat">
+                    {% for usuario in usuarios %}
+                        <div class="chat_list {% if usuario.id == usuario_destino.id %}active_chat{% endif %}">
+                            <div class="chat_people">
+                                <div class="chat_img"> <img src="{{ usuario.imagen_perfil.url }}" alt="{{ usuario.username }}"> </div>
+                                <div class="chat_ib">
+                                    <h5>{{ usuario.get_full_name }} <span class="chat_date">Dec 25</span></h5>
+                                    <p>Último mensaje: {{ usuario.ultimo_mensaje }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 mesgs">
+            <div class="msg_history">
+                <!-- Historial de mensajes -->
+                {% for mensaje in mensajes %}
+                    {% if mensaje.emisor == usuario_destino or mensaje.receptor == usuario_destino %}
+                        <div class="{% if mensaje.emisor == request.user %}outgoing_msg{% else %}incoming_msg{% endif %}">
+                            <div class="{% if mensaje.emisor == request.user %}sent_msg{% else %}received_msg{% endif %}">
+                                <div class="msg_cotainer">
+                                    {{ mensaje.contenido }}
+                                    <span class="time_date">{{ mensaje.timestamp }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="type_msg">
+                <!-- Formulario para enviar mensajes -->
+                <div class="input_msg_write">
+                    <form id="enviarMensajeForm" method="post" action="{% url 'message_view' usuario_destino.id %}">
+                        {% csrf_token %}
+                        <input type="text" name="contenido" class="form-control write_msg" placeholder="Type a message" />
+                        <button type="submit" class="btn btn-primary msg_send_btn">
+                            <i class="bi bi-paper-plane-o" aria-hidden="true"></i>Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

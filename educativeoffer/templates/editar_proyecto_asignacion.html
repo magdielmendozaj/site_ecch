@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %} Editar Asignación de Proyecto {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Editar Proyecto:  {{ proyecto.titulo }}</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.titulo.label }}
+                            {{ form.titulo }}
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            {{ form.instrucciones.label }}
+                            {{ form.instrucciones }}
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mt-4">Alumnos Asociados al Proyecto</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre del Alumno</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for proyecto_alumno in proyecto.proyectoalumno_set.all %}
+                            <tr>
+                                <td>{{ proyecto_alumno.alumno.usuario.get_full_name }}</td>
+                                <td><a href="{% url 'eliminar_proyecto_alumno' proyecto_id=proyecto.id alumno_id=proyecto_alumno.alumno_id %}" class="btn btn-danger btn-block">Eliminar</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'asignar_alumnos' proyecto_id=proyecto.id %}" class="btn btn-primary btn-block">Asignar Alumno +</a>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+<br />
+
+{% endblock %}

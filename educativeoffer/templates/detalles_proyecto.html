@@ -1,0 +1,47 @@
+{% extends './base.html' %}
+
+{% block title %} Proyecto Final {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Proyecto</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ proyecto.titulo }}</h5>
+                    <p class="card-text">{{ proyecto.descripcion }}</p>
+                    <p class="card-text"><strong>Fecha de Creación:</strong> {{ proyecto.fecha_creacion }}</p>
+                    <!-- <p class="card-text"><strong>Documento PDF:</strong> <a href="{{ proyecto.documento_pdf.url }}">Ver PDF</a></p> -->
+                    <!-- Previsualizador de PDF -->
+                    <!-- <embed src="{{ proyecto.documento_pdf.url }}" type="application/pdf" width="100%" height="600px" /> -->
+                    <embed src="{{proyecto.documento_pdf }}#toolbar=0" type="application/pdf" width="100%" height="600px" />
+                    <!-- <iframe src="{{ proyecto.documento_pdf.url }}&embedded=true" width="100%" height="600px" style="border: none;">  </iframe> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="mb-3">Imágenes</h3>
+                    <div class="row">
+                        {% for imagen in imagenes_proyecto %}
+                            <div class="col-md-6 mb-6">
+                                <div class="card">
+                                    <img src="{{ imagen.imagen.url }}" class="card-img-top img-fluid" alt="{{ imagen.titulo }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ imagen.titulo }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+{% endblock %}

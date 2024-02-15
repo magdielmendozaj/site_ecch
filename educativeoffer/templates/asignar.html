@@ -1,0 +1,43 @@
+{% extends "./base.html" %}
+
+{% block title %} Asignar calificación de {{ asignatura.nombre }} {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<div class="container mt-4">
+    <h3 class="text-center">Asignatura: {{ asignatura.nombre }}</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+            <form method="post" action="{% url 'asignar_calificacion' usuario_email=usuario.email asignatura_id=asignatura.id %}">
+                {% csrf_token %}
+                <thead>
+                    <tr class="text-center">
+                        <th class="fw-bolder">Alumno</th>
+                        <th class="fw-bolder">Asesor Educativo</th>
+                        <th class="fw-bolder">Asignatura</th>
+                        <th class="fw-bolder">Periodo Actual</th>
+                        <th class="fw-bolder">Calificación</th>
+                        <th class="fw-bolder">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ usuario.get_full_name }}</td>
+                        <td>{{ request.user.get_full_name }}</td>
+                        <td>{{ asignatura.nombre }}</td>
+                        <td>{{ periodo }}</td>
+                        <td>
+                            <input type="number" name="calificacion" id="calificacion" class="form-control" placeholder="Ingrese la calificación">
+                        </td>
+                        <td>
+                            <button class="btn btn-primary">Guardar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

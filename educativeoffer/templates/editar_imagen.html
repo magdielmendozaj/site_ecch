@@ -1,0 +1,36 @@
+{% extends './base.html' %}
+
+{% block title %} Editar Imagen Proyecto Final {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <h1 class="text-center mb-4">Editar {{ imagen.titulo }}</h1>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="imagen">Nueva imagen:</label>
+                            <input type="file" name="imagen" class="form-control-file">
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-primary btn-block">Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="{{ imagen.imagen.url }}" class="img-fluid mb-3" alt="{{ imagen.titulo }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+{% endblock %}

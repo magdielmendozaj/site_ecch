@@ -1,0 +1,236 @@
+/* header */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;800&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+}
+
+.custom-header{
+    background-color: #4792b3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 85px;
+    padding: 5px 10%;
+}
+
+.custom-header .logo{
+    cursor: pointer;
+}
+
+.custom-header .logo img{
+    height: 70px;
+    width: auto;
+    transition: all 0.3s;
+}
+
+/* .custom-header .logo img:hover{
+    transform: scale(1.2);
+} */
+
+.custom-header .nav-links{
+    list-style: none;
+}
+
+.custom-header .nav-links li{
+    display: inline-block;
+    padding: 0 20px;
+}
+
+/* .custom-header .nav-links li:hover,
+.overlay a:hover{
+    transform: scale(1.1);
+} */
+
+.custom-header .nav-links a{
+    font-size: 700;
+    color: #eceff1;
+}
+
+.custom-header .nav-links li a:hover{
+    color: #eb1c7d;
+}
+
+.menu{
+    display: none;
+}
+
+.custom-header .btn-custom button,
+.custom-header .menu button{
+    font-weight: 700;
+    color: #1b3039;
+    padding: 9px 25px;
+    background: #eceff1;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.custom-header .btn-custom button:hover,
+.custom-header .btn-custom button:hover{
+    background-color: #e2f1f8;
+    color: #eb1c7d;
+    /* transform: scale(1.1); */
+}
+
+@media screen and (max-width:800px){
+    .nav-links, .btn-custom{
+        display: none;
+    }
+    .menu{
+        display: inherit;
+    }    
+}
+
+/* Nav */
+.custom-header a{
+    text-decoration: none;
+}
+
+.custom-header .overlay{
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    background-color: rgba(33, 49, 63, .95);
+    overflow: hidden;
+    transition: all 0.3s ease 0s;
+}
+
+.custom-header .overlay .overlay-content{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-header .overlay a{
+    padding: 15px;
+    font-size: 36px;
+    display: block;
+    transition: all 0.3s ease 0s;
+    font-weight: 700;
+    color: #eceff1;
+}
+
+.custom-header .overlay a:hover, 
+.custom-header .overlay a:focus{
+    color: #eb1c7d;
+}
+
+.custom-header .overlay .close{
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 65px;
+}
+
+@media screen and (max-height:450px){
+    .custom-header .overlay a{
+        font-size: 20px;
+    }
+    
+    .custom-header .overlay .close{
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}
+
+/* footer */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;800&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+}
+
+.pie-pagina{
+    width: 100%;
+    background-color: #4792b3;
+}
+
+.pie-pagina .grupo-1{
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap:50px;
+    padding: 45px 0px;
+}
+
+.pie-pagina .grupo-1 .box figure{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pie-pagina .grupo-1 .box figure img{
+    width: 200px;
+}
+
+.pie-pagina .grupo-1 .box h2{
+    color: #fff;
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+.pie-pagina .grupo-1 .box p{
+    color: #efefef;
+    margin-bottom: 10px;
+}
+
+.pie-pagina .grupo-1 .red-social a{
+    display: inline-block;
+    text-decoration: none;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    color: #fff;
+    margin-right: 10px;
+    border-radius: 5px;
+    background-color: #0d2033;
+    text-align: center;
+    transition: all 300ms ease;
+}
+
+.pie-pagina .grupo-1 .red-social a:hover{
+    color: #eb1c7d;
+    transform: scale(1.2);
+}
+
+.pie-pagina .grupo-2{
+    background-color: #2f6075;
+    padding: 15px 10px;
+    text-align: center;
+    color: #fff;
+}
+
+.pie-pagina .grupo-2 small{
+    font-size: 15px;
+}
+
+@media screen and (max-width:800px){
+    .pie-pagina .grupo-1{
+        width: 90%;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap:30px;
+        padding: 35px 0px;
+    }
+    .pie-pagina .grupo-1 .box figure img{
+        width: 180px;
+    }
+}

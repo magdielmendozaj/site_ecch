@@ -1,0 +1,47 @@
+{% extends "./base.html" %}
+
+{% block title %} Establecer contraseña {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<!-- Main Content -->
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<main>
+    <section id="seccion1">
+        <div class="container-fluid">
+            <div class="row main-content bg-success text-center">
+                <div class="col-md-4 text-center company__info">
+                    <span class="company__logo"><img src="{% static 'img/logo.png' %}" alt="logo"></span>
+                    <h5 class="company_title">E.C.Chimalhuacán</h5>
+                </div>
+                <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+                    <div class="container-fluid">
+                        <div class="row text-center">
+                            <h2>Establecer contraseña</h2>
+                        </div>
+                        <div class="row">
+                            <form class="form-group" method="post" action="{% url 'set_password' email=email activation_key=activation_key %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    {{ form.password1 }}
+                                </div>
+                                <div class="row">
+                                    {{ form.password2 }}
+                                </div>
+                                <div class="row">
+                                    <input type="submit" value="Guardar" id="btn">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row">
+                            <p>Una vez hayas cambiado tu contraseña <a href="{% url 'login' %}">Inicia Sesión</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}

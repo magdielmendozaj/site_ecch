@@ -1,0 +1,46 @@
+{% extends "./base.html" %}
+
+{% block title %} Asignación de un nuevo proyecto {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="{% url 'crear_asignacion_proyecto' %}">
+                {% csrf_token %}
+
+                <label for="titulo" class="form-label">Título:</label>
+                <input type="text" name="titulo" class="form-control" required>
+
+                <label for="instrucciones" class="form-label">Instrucciones:</label>
+                <textarea name="instrucciones" rows="3" class="form-control" required></textarea>
+
+                <label for="alumnos" class="form-label">Alumnos:</label>
+                <div class="form-check">
+                    {% if request.user.is_authenticated and request.user.asesoreducativo %}
+                        {% with asesor=request.user.asesoreducativo %}
+                            {% if asesor %}
+                                {% for inscripcion in asesor.inscripcion_set.all %}
+                                    {% with alumno=inscripcion.alumno %}
+                                        <input type="checkbox" class="form-check-input" name="alumnos" value="{{ alumno }}" id="alumno{{ alumno.id }}">
+                                        <label class="form-check-label" for="alumno{{ alumno.id }}">{{ alumno.usuario.get_full_name }}</label><br>
+                                    {% endwith %}
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-muted">No se ha asignado ningún alumno.</p>
+                            {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        <p class="text-muted">Inicia sesión como asesor educativo para ver tus alumnos asignados.</p>
+                    {% endif %}
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary btn-block">Crear Asignación</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+
+{% endblock %}

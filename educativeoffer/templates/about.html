@@ -1,0 +1,137 @@
+{% extends "./base.html" %}
+
+{% block title %} Sobre nosotros {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Misión, Visión y Valores</h1>
+
+    <div class="row">
+        <div class="card-deck">
+            <!-- Misión -->
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-bullseye"></i> Misión</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ escuela.mision }}</p>
+                </div>
+            </div>
+
+            <br />
+            <br />
+        
+            <!-- Visión -->
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-eye"></i> Visión</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ escuela.vision }}</p>
+                </div>
+            </div>
+
+            <br />
+            <br />
+        
+            <!-- Valores -->
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0"><i class="bi bi-heart"></i> Valores</h5>
+                </div>
+                <div class="card-body">
+                    
+                    <ul class="list-group-flush">
+                        {% for v in valores %}
+                        <li>{{ v.nombre }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <br />
+        <br />
+
+        <h1 class="text-center mb-4">Nuestra comunidad</h1>
+
+        <!-- Asesores Educativos -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-chalkboard-teacher"></i> Asesores Educativos</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        {% for asesor in asesores %}
+                        {% if asesor.usuario.profile %}
+                        <a href="{% url 'profile_view' usuario_email=asesor.usuario.email %}">
+                        <li>
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4 text-center">
+                                        <img src="{% if asesor.usuario.profile.avatar %}{{ asesor.usuario.profile.avatar.url }}{% else %}https://w7.pngwing.com/pngs/184/113/png-transparent-user-profile-computer-icons-profile-heroes-black-silhouette-thumbnail.png{% endif %}"
+                                            class="img-fluid rounded-start" alt="{{ asesor.usuario.get_full_name }}">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ asesor.usuario.get_full_name }}</h5>
+                                            <p class="card-text">{{ asesor.grado_academico }} - {{ asesor.especialidad }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </a>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <br />
+
+        <!-- Alumnos -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="bi bi-user-graduate"></i> Alumnos</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        {% for alumno in alumnos %}
+                        {% if alumno.usuario.profile %}
+                        <a href="{% url 'profile_view' usuario_email=alumno.usuario.email %}">
+                        <li>
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4 text-center">
+                                        <img src="{% if alumno.usuario.profile.avatar %}{{ alumno.usuario.profile.avatar.url }}{% else %}https://w7.pngwing.com/pngs/184/113/png-transparent-user-profile-computer-icons-profile-heroes-black-silhouette-thumbnail.png{% endif %}"
+                                            class="img-fluid rounded-start" alt="{{ alumno.usuario.get_full_name }}">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ alumno.usuario.get_full_name }}</h5>
+                                            <p class="card-text">{{ alumno.especialidad }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </a>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<br />
+
+{% endblock %}

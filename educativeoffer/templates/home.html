@@ -1,0 +1,78 @@
+{% extends "./base.html" %}
+
+{% block title %} E.C.Ch {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<main>
+    <section id="seccion1">
+        <header class="bg-light py-2">
+        <div class="container px-5" id="container1">
+                    <div class="row gx-5 align-items-center justify-content-center">
+                        <div class="col-lg-8 col-xl-7 col-xxl-6">
+                            <div class="my-5 text-center text-xl-start">
+                                <h1 class="display-5 fw-bolder mb-2">{{ escuela.nombre }}</h1>
+                                <p class="lead fw-normal text-50 mb-4">{{ escuela.mision }}</p>
+                                <div class="d-grid gap-3 d-sm-flex d-md-flex justify-content-sm-center justify-content-xl-start">
+                                    {% if user.is_authenticated %}
+                                        <a class="btn btn-primary btn-lg" href="{% url 'profile' %}">Ver perfil</a>
+                                        <a class="btn btn-primary btn-lg" href="{% url 'material' %}">Ver Material</a>
+                                    {% else %}
+                                        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'inscripcion' %}">Inscríbete</a>
+                                        <a class="btn btn-outline-dark btn-lg px-4" href="{% url 'login' %}">Inicia Sesión</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-xxl-6 text-center"><img class="img-fluid rounded-3 my-5" src="{% static 'img/index.jpg' %}" alt="..." /></div>
+                    </div>
+                </div>
+            </header>
+    </section>
+    {% for e in especialidades %}
+    {% if forloop.counter|divisibleby:2 %}
+    <section id="{{ e.nombre }}" class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 order-md-1 text-center">
+                    {% if e.imagen %}
+                    <a href="{% url 'especialidad_view' nombre=e.nombre %}">
+                    <img class="img-fluid rounded-circle" src="{{ e.imagen.url }}" alt="{{ e.nombre }}"
+                        style="max-width: 300px; height: auto;"></a>
+                    {% else %}
+                    <p>No hay imagen asociada</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 order-md-2">
+                    <h2>{{ e.nombre }}</h2>
+                    <p class="lead">{{ e.descripcion }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <section id="{{ e.nombre }}" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 order-md-2 text-center">
+                    {% if e.imagen %}
+                    <a href="{% url 'especialidad_view' nombre=e.nombre %}">
+                    <img class="img-fluid rounded-circle" src="{{ e.imagen.url }}" alt="{{ e.nombre }}"
+                        style="max-width: 300px; height: auto;"></a>
+                    {% else %}
+                    <p>No hay imagen asociada</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 order-md-1">
+                    <h2>{{ e.nombre }}</h2>
+                    <p class="lead">{{ e.descripcion }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+</main>
+
+{% endblock %}

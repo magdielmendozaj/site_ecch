@@ -1,0 +1,178 @@
+{% extends "./base.html" %}
+
+{% block title %} E.C.Ch {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    #sidebar {
+        background-color: #343a40;
+        color: #fff;
+        min-height: 100vh;
+    }
+
+    #content {
+        transition: margin-left 0.3s;
+        padding: 15px;
+    }
+</style>
+
+<div id="content">
+
+    <div class="container-fluid">
+        <h2>{% if request.user.sexo.descripcion == 'Hombre' %}
+            Bienvenido, profesor
+            {% elif request.user.sexo.descripcion == 'Mujer' %}
+            Bienvenida, profesora
+            {% else %}
+            Docente
+            {% endif %}
+            {{ request.user.get_full_name }}
+        </h2>
+
+        <div class="card">
+            <div class="card-header">
+                Clases y documentos
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled row">
+                    {% with asesor=request.user.asesoreducativo %}
+                    {% if asesor.especialidad %}
+                    {% regroup asesor.especialidad.asignaturas.all by periodo as asignaturas_por_periodo %}
+                    {% for periodo in asignaturas_por_periodo %}
+                        <div class="col-md-4">
+                            <h3>
+                                {% if asesor.especialidad.division == '4' %}
+                                    {{ periodo.grouper }}° Cuatrimestre 
+                                {% elif asesor.especialidad.division == '6' %}
+                                    {{ periodo.grouper }}° Semestre 
+                                {% else %}
+                                    Periodo {{ periodo.grouper }}
+                                {% endif %}
+                            </h3>
+                            <ul>
+                                {% for asignatura in periodo.list %}
+                                    <li class="mb-2">
+                                        <a href="{% url 'documentos_por_asignatura' asignatura_id=asignatura.id %}">{{ asignatura.nombre }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <li>No hay asignaturas asignadas para esta especialidad</li>
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+                </ul>
+            </div>
+        </div>
+        
+        <br />
+        <div class="card">
+            <div class="card-header">
+                Alumnos Asignados
+            </div>
+            <div class="card-body">
+                <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar alumno">
+                <ul id="alumnosList">
+                    {% if request.user.is_authenticated and request.user.asesoreducativo %}
+                        {% with asesor=request.user.asesoreducativo %}
+                            {% if asesor %}
+                                {% for inscripcion in asesor.inscripcion_set.all %}
+                                    {% with alumno=inscripcion.alumno %}
+                                        <a href="{% url 'calificaciones_view' usuario_email=alumno.usuario.email %}">
+                                            <li>{{ alumno.usuario.get_full_name }}</li>
+                                        </a>
+                                    {% endwith %}
+                                {% endfor %}
+                            {% else %}
+                                <li>No hay alumnos asignados para este asesor educativo</li>
+                            {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        <li>Inicia sesión como asesor educativo para ver tus alumnos asignados</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>              
+
+        <div class="card mt-3">
+            <div class="card-header">
+                Asignación de Proyectos Finales
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Fecha de Creación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for proyecto in proyectos_asignados %}
+                                {% if proyecto.asesor == request.user.asesoreducativo %}
+                                    <tr>
+                                        <td>{{ proyecto.titulo }}</td>
+                                        <td>{{ proyecto.fecha_creacion|date:"d/m/Y H:i:s" }}</td>
+                                        <td>
+                                            <a href="{% url 'editar_proyecto_asignacion' proyecto_id=proyecto.id %}" class="btn btn-primary btn-block">Editar</a>
+                                            <a href="{% url 'eliminar_asignacion_proyecto' proyecto_id=proyecto.id %}" class="btn btn-danger btn-block">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'crear_asignacion_proyecto' %}" class="btn btn-primary btn-block">Registrar Nuevo Proyecto</a>
+            </div>
+        </div>
+
+        <!-- Sección de Anuncios -->
+        <div class="card mt-3">
+            <div class="card-header">
+                Anuncios
+            </div>
+            <div class="card-body">
+                <!-- Contenido de la sección de Anuncios -->
+                <p>¡Bienvenidos a la nueva semana de clases! Recuerden revisar las actividades pendientes y cualquier
+                    anuncio importante.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('input', function () {
+            var searchTerm = $(this).val().toLowerCase();
+
+            // Oculta todos los elementos de la lista
+            $('#alumnosList li').hide();
+
+            // Filtra y muestra solo los elementos que coinciden con el término de búsqueda
+            $('#alumnosList li:contains("' + searchTerm + '")').show();
+        });
+
+        // Extensión de jQuery para buscar en el texto del elemento
+        $.expr[':'].contains = function (a, i, m) {
+            return $(a).text().toLowerCase().indexOf(m[3].toLowerCase()) >= 0;
+        };
+    });
+</script>
+
+{% endblock %}

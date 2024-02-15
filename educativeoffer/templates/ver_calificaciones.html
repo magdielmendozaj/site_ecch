@@ -1,0 +1,36 @@
+{% extends "./base.html" %}
+
+{% block title %} Calificaciones de {{ request.user.get_full_name }} {% endblock %}
+
+{% block body %}
+{% load static %}
+
+    <div class="container mt-4">
+        <h3 class="text-center">Calificaciones del Alumno {{ request.user.get_full_name }}</h3>
+        {% if calificaciones %}
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="fw-bolder">Asignatura</th>
+                            <th class="fw-bolder">Periodo</th>
+                            <th class="fw-bolder">Calificación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for calificacion in calificaciones %}
+                            <tr>
+                                <td>{{ calificacion.asignatura.nombre }}</td>
+                                <td>{{ calificacion.periodo }}</td>
+                                <td>{{ calificacion.calificacion }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No hay calificaciones disponibles para este usuario.</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

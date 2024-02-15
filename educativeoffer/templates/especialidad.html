@@ -1,0 +1,54 @@
+{% extends "./base.html" %}
+
+{% block title %} {{ especialidad.nombre }} {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 order-md-1 text-center">
+                {% if especialidad.imagen %}
+                    <img class="img-fluid mb-4 rounded w-100" src="{{ especialidad.imagen.url }}" alt="{{ especialidad.nombre }}" style="height: auto;">
+                {% else %}
+                    <p class="mb-4">No hay imagen asociada</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6 order-md-1 align-items-center justify-content-center">
+                <div>
+                    <h2 class="text-center">{{ especialidad.nombre }}</h2>
+                    <hr>
+                    <p class="lead">{{ especialidad.descripcion }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-3">
+    <div class="container">
+        <h2 class="mb-4">Plan de estudios de {{ especialidad.nombre }}</h2>
+        {% regroup especialidad.asignaturas.all by periodo as asignaturas_por_periodo %}
+
+        {% for periodo in asignaturas_por_periodo %}
+            <h3>
+                {% if especialidad.division == '4' %}
+                {{ periodo.grouper }}° Cuatrimestre 
+                {% elif especialidad.division == '6' %}
+                    {{ periodo.grouper }}° Semestre 
+                {% else %}
+                    Periodo {{ periodo.grouper }}
+                {% endif %}
+            </h3>
+
+            <ul>
+                {% for asignatura in periodo.list %}
+                    <li class="mb-2">{{ asignatura.nombre }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

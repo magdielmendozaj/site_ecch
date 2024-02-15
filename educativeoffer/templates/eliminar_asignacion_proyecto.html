@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Editar Asignación de Proyecto {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<div class="container mt-5">
+    <h2>Confirmar Eliminación del Proyecto</h2>
+    <p>¿Estás seguro de que deseas eliminar la asignación de proyecto "{{ proyecto.titulo }}"?</p>
+    <form method="post" action="{% url 'eliminar_asignacion_proyecto' proyecto.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-block">Eliminar</button>
+        <a href="{% url 'index' %}" class="btn btn-secondary btn-block">Cancelar</a>
+    </form>
+</div>
+<br />
+
+{% endblock %}

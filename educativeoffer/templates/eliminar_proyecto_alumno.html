@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Confirmar Eliminación {% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Confirmar Eliminación</h2>
+                </div>
+                <div class="card-body">
+                    <p>¿Estás seguro de que deseas eliminar este registro?</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-block">Eliminar</button>
+                        <a href="{% url 'editar_proyecto_asignacion' proyecto_id=proyecto_alumno.proyecto.id %}" class="btn btn-secondary btn-block">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

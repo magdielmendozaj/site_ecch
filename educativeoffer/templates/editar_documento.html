@@ -1,0 +1,29 @@
+{% extends "./base.html" %}
+
+{% block title %} Editar documento: {{ documento.titulo }} {% endblock %}
+
+{% block body %}
+{% load static %}
+
+<div class="container mt-5">
+    <h2 class="text-center">Editar Documento: {{ documento.titulo }}</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.titulo.label }}
+                {{ form.titulo }}
+                <br />
+                {{ form.descripcion.label }}
+                {{ form.descripcion }}
+                <br />
+                {{ form.uploadedFile.label }}
+                {{ form.uploadedFile }}
+                <button type="submit" class="btn btn-primary btn-block mt-3">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+
+{% endblock %}

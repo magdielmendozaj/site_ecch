@@ -1,0 +1,40 @@
+{% extends './base.html' %}
+
+{% block title %} Editar Proyecto Final {% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Editar Proyecto</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-block">Guardar cambios</button>
+            </form>
+        </div>
+        <br />
+        <div class="col-md-6">
+            <h3 class="mb-3">Imágenes relacionadas</h3>
+            <div class="card-columns">
+                <div class="row">
+                    {% for imagen in imagenes_proyecto %}
+                        <div class="col-md-6 mb-6">
+                            <div class="card">
+                                <img src="{{ imagen.imagen.url }}" class="card-img-top img-fluid" alt="{{ imagen.titulo }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ imagen.titulo }}</h5>
+                                    <a href="{% url 'editar_imagen' imagen.id %}" class="btn btn-warning btn-block">Editar <i class="bi bi-pencil"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+{% endblock %}
